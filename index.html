@@ -4,71 +4,37 @@
     <title> React App </title>
     <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src='https://unpkg.com/babel-standalone@6/babel.min.js'></script>
 </head>
 <body>
     <div id='app'></div>
 
-    <script>
+    <script type='text/babel'>
         const name = 'Christian';
-        const handle = '@christianpflaum'
+        const handle = '@christianpflaum';
 
-        // create  props with children: 'Christian'
-        // object representation of a DOM node
-        // const headerElement = React.createElement(
-        //     'h1', 
-        //     { id: 'header' }, 
-        //     'Christian'
-        //     );
-
-        // const nameElement = React.createElement(
-        //     'h1',
-        //     null,
-        //     name
-        // );
-
-        // const handleElement = React.createElement(
-        //     'h3',
-        //     null,
-        //     handle
-        // );
-
-
-
-        //revert element (from above) to component by putting it in a function
         function NameComponent (props) {
-            return React.createElement(
-                'h1',
-                null,
-                props.name,
-            )
-        }
+            return <h1>{props.name}</h1>
+        };
 
-        function HandleComponent(props) {
-            return React.createElement(
-                'h3',
-                null,
-                props.handle,
+        function HandleComponent (props) {
+            return <h3>{props.handle}</h3>
+        };
+ 
+        function App (props) {
+            return (
+                <div id='container'>
+                    <NameComponent name={name} />
+                    <HandleComponent handle={handle} />
+                </div>
             )
-        }
+        };
 
-        const wrapperElement = React.createElement(
-            'div',  
-            { id:'container' },
-            React.createElement(NameComponent, {name}), //previously nameElement
-            React.createElement(HandleComponent, {handle}), // "" handleElement
-        );
-        
         ReactDOM.render(
-            // render header ID within id:app
-            // headerElement,
-
-            // now render wrapper for multiple elements instead of just header
-            wrapperElement,
+            <App />,
             document.getElementById('app')
         );
-
-
-        console.log(wrapperElement);
     </script>
 </body>
 </html>
+
