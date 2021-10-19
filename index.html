@@ -10,25 +10,59 @@
     <div id='app'></div>
 
     <script type='text/babel'>
-        const name = 'Christian';
-        const handle = '@christianpflaum';
-
-        function NameComponent (props) {
-            return <h1>{props.name}</h1>
-        };
-
-        function HandleComponent (props) {
-            return <h3>{props.handle}</h3>
-        };
- 
-        function App (props) {
+        function FriendsList (props) {
             return (
-                <div id='container'>
-                    <NameComponent name={name} />
-                    <HandleComponent handle={handle} />
-                </div>
+                <ul>
+                    {props.list.map((name) => (
+                        <li key={name}>
+                            <span>{name}</span>
+                            <button onClick={() => props.onRemoveFriend(name)}>Remove</button>
+                        </li>
+                    ))}
+                </ul>
             )
         };
+
+// class App creates component same as function App
+        class App extends React.Component{
+            constructor (props) {
+                super(props)
+
+                this.state = {
+                    friends: ['Christian', 'Alexander', 'Pflaum']
+                }
+            }
+            handleAddFriend() {
+
+            }
+            handleRemoveFriend(name) {
+                this.setState((currentState) => {
+                    return {
+                        friends: currentState.friends.filter((friend) => friend !== name)
+                    }
+                })
+            }
+            render () {
+
+                return (
+                 <div>
+                    <FriendsList 
+                        list={this.state.friends}
+                        onRemoveFriend = {this.handleRemoveFriend}
+                        />
+                 </div>
+                )
+            }
+        };
+
+        // function App () {
+        //     const friends = ['Christian', 'Alexander', 'Pflaum']
+        //     return (
+        //         <div>
+        //             <FriendsList list={friends} />
+        //         </div>
+        //     )
+        // };
 
         ReactDOM.render(
             <App />,
