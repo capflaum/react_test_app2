@@ -29,11 +29,24 @@
                 super(props)
 
                 this.state = {
-                    friends: ['Christian', 'Alexander', 'Pflaum']
+                    friends: ['Christian', 'Alexander', 'Pflaum'],
+                    input: '',
                 }
+// .bind() forces 'this' to reference App function instead of onRemoveFriend
+// otherwise 'this' is undefined within onRemoveFriend
+// place within constructor
+                this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
+                this.updateInput = this.updateInput.bind(this);
+                this.handleAddFriend = this.handleAddFriend.bind(this);
+                console.log(this)
             }
             handleAddFriend() {
-
+                this.setState((currentState) => {
+                    return {
+                        // .concat creates new array instead of mutating the state directly
+                        friends: currentState.friends.concat([this.state.input])
+                    }
+                })
             }
             handleRemoveFriend(name) {
                 this.setState((currentState) => {
@@ -42,14 +55,28 @@
                     }
                 })
             }
-            render () {
+            updateInput(e) {
+                const value = e.target.value
 
+                this.setState(() => ({
+                    input: value
+                }))
+
+            }
+            render () {
                 return (
                  <div>
+                    <input
+                        type = 'text'
+                        placeholder = 'new friend'
+                        value = {this.state.input}
+                        onChange = {this.updateInput}
+                    />
+                    <button onClick={this.handleAddFriend}>Submit</button>
                     <FriendsList 
                         list={this.state.friends}
                         onRemoveFriend = {this.handleRemoveFriend}
-                        />
+                    />
                  </div>
                 )
             }
